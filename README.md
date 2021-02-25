@@ -28,7 +28,7 @@ For saving the data of "My team section" use something local, may be cookies, lo
 
 ### Notes
 
--   Add a README with everything you consider necessary to run the app
--   Do not develop any backend code
--   If you make any assumptions, take note of them in the README, so we can better understand your decisions.
--   We are open for questions if you have any doubts
+- Add a README with everything you consider necessary to run the app
+- Do not develop any backend code
+- If you make any assumptions, take note of them in the README, so we can better understand your decisions.
+- We are open for questions if you have any doubts
