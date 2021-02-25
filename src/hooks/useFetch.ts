@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-const { REACT_APP_API_ENDPOINT, NODE_ENV } = process.env;
+const { NODE_ENV } = process.env;
 
 type UseFetchReturn<T> = {
   status: Status;
@@ -23,18 +23,14 @@ export const useFetch = <T>(
     (endpoint?: string, options?: RequestInit) => {
       setStatus("pending");
 
-      NODE_ENV === "development" &&
-        console.log("Fetching data...", REACT_APP_API_ENDPOINT + url);
+      NODE_ENV === "development" && console.log("Fetching data...", url);
 
       const callToApi = async () => {
         try {
-          const response = await fetch(
-            REACT_APP_API_ENDPOINT + url + (endpoint || ""),
-            {
-              signal: abortController.current.signal,
-              ...options,
-            }
-          );
+          const response = await fetch(url + (endpoint || ""), {
+            signal: abortController.current.signal,
+            ...options,
+          });
           if (!response.ok) {
             throw new Error("Failed to fetch");
           }
