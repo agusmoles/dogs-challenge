@@ -4,6 +4,16 @@ First, thanks for making the time for this challenge! We really appreciate it.
 
 ## Challenge - Dog Team
 
+### `yarn start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### `yarn build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
 ### What should you build?
 
 Design a small React app that shows a list of breeds using the api "Dog API" (https://dog.ceo/dog-api/). Add the ability to search the list by breed name. When a breed on the list is clicked, the app should navigate to the breed page.
@@ -18,7 +28,7 @@ For saving the data of "My team section" use something local, may be cookies, lo
 
 ### Notes
 
-- Add a README with everything you consider necessary to run the app
-- Do not develop any backend code
-- If you make any assumptions, take note of them in the README, so we can better understand your decisions.
-- We are open for questions if you have any doubts
+-   Add a README with everything you consider necessary to run the app
+-   Do not develop any backend code
+-   If you make any assumptions, take note of them in the README, so we can better understand your decisions.
+-   We are open for questions if you have any doubts
