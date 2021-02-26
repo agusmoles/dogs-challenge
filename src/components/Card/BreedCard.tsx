@@ -4,6 +4,7 @@ import { useFetch, useLocalStorage } from "../../hooks";
 
 interface BreedCardProps {
   breed: string;
+  subBreed?: string;
   addToTeam?: boolean;
 }
 
@@ -13,6 +14,7 @@ interface BreedImageResponse {
 
 export const BreedCard: FunctionComponent<BreedCardProps> = ({
   breed,
+  subBreed,
   addToTeam,
 }) => {
   const { status, fetchedData: breedImage } = useFetch<BreedImageResponse>(
@@ -24,36 +26,54 @@ export const BreedCard: FunctionComponent<BreedCardProps> = ({
   );
   const [isAlreadyInTeam, setIsAlreadyInTeam] = useState(false);
 
-  const addBreedToTeam = () => {
+  const switchTeam = () => {
+    const sameBreedDogsInTheTeam = breedsTeam.filter((breedName) =>
+      breedName.startsWith(breed)
+    ).length;
+
+    if (
+      !isAlreadyInTeam &&
+      (breedsTeam.length >= 10 || sameBreedDogsInTheTeam >= 3)
+    )
+      return;
+
+    const completeBreedName = subBreed ? `${breed}-${subBreed}` : breed;
+
     const newBreedsTeam = isAlreadyInTeam
-      ? breedsTeam.filter((breedName) => breedName !== breed)
-      : [...breedsTeam, breed];
+      ? breedsTeam.filter((breedName) => breedName !== completeBreedName)
+      : [...breedsTeam, completeBreedName];
+
     setBreedsTeam(newBreedsTeam);
   };
 
   useEffect(() => {
     if (!breedsTeam) return;
+    const completeBreedName = subBreed ? `${breed}-${subBreed}` : breed;
 
     setIsAlreadyInTeam(
-      breedsTeam.findIndex((breedName) => breed !== breedName) !== -1
+      breedsTeam.some((breedName) => completeBreedName === breedName)
     );
-  }, [breedsTeam, breed]);
+  }, [breedsTeam, breed, subBreed]);
 
   return (
     <Card>
-      <BreedName>{breed}</BreedName>
       {status === "resolved" && breedImage ? (
-        <img src={breedImage.message} alt={`${breed} breed`} />
+        <>
+          <BreedName>
+            {breed} {subBreed && `- ${subBreed}`}
+          </BreedName>
+          <img src={breedImage.message} alt={`${breed} breed`} />
+
+          {addToTeam ? (
+            <button onClick={switchTeam}>
+              {isAlreadyInTeam ? "Remove from team" : "Add to team"}
+            </button>
+          ) : (
+            <a href={`/${breed}`}>See breed</a>
+          )}
+        </>
       ) : (
         <>Loading...</>
-      )}
-
-      {addToTeam ? (
-        <button onClick={addBreedToTeam}>
-          {isAlreadyInTeam ? "Remove from team" : "Add to team"}
-        </button>
-      ) : (
-        <a href={`/${breed}`}>See breed</a>
       )}
     </Card>
   );
