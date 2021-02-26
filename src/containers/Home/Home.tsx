@@ -7,7 +7,7 @@ import React, {
 import styled from "styled-components";
 import { Input } from "../../components";
 import { BreedCard } from "../../components/Card/BreedCard";
-import { useFetch } from "../../hooks";
+import { useDebounce, useFetch } from "../../hooks";
 
 interface AllBreedsResponse {
   message: Record<string, string>;
@@ -15,10 +15,11 @@ interface AllBreedsResponse {
 
 const Home: FunctionComponent = () => {
   const [searchedBreed, setSearchedBreed] = useState("");
+  const debouncedSearchedBreed = useDebounce(searchedBreed, 350);
   const { fetchedData: allBreedsData } = useFetch<AllBreedsResponse>(
     "https://dog.ceo/api/breeds/list/all"
   );
-  const [allBreedsNames, setAllBreedsNames] = useState<string[]>([]);
+  const [displayedBreeds, setDisplayedBreeds] = useState<string[]>([]);
 
   const onBreedChange = ({
     target: { value },
@@ -29,8 +30,23 @@ const Home: FunctionComponent = () => {
   useEffect(() => {
     if (!allBreedsData) return;
 
-    setAllBreedsNames(Object.keys(allBreedsData.message));
+    const allBreeds = Object.keys(allBreedsData.message);
+    setDisplayedBreeds(allBreeds);
   }, [allBreedsData]);
+
+  useEffect(() => {
+    if (!allBreedsData) return;
+
+    const allBreeds = Object.keys(allBreedsData.message);
+
+    debouncedSearchedBreed === ""
+      ? setDisplayedBreeds(allBreeds)
+      : setDisplayedBreeds(
+          allBreeds.filter((breedName) =>
+            breedName.startsWith(debouncedSearchedBreed)
+          )
+        );
+  }, [debouncedSearchedBreed, allBreedsData]);
 
   return (
     <Container>
@@ -43,9 +59,9 @@ const Home: FunctionComponent = () => {
         />
       </div>
 
-      {allBreedsNames && (
+      {displayedBreeds && (
         <BreedsList>
-          {allBreedsNames.map((breedName) => (
+          {displayedBreeds.map((breedName) => (
             <BreedCard key={breedName} breed={breedName} />
           ))}
         </BreedsList>
