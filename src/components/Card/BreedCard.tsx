@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useFetch, useLocalStorage } from "../../hooks";
 
@@ -69,7 +70,7 @@ export const BreedCard: FunctionComponent<BreedCardProps> = ({
               {isAlreadyInTeam ? "Remove from team" : "Add to team"}
             </button>
           ) : (
-            <a href={`/${breed}`}>See breed</a>
+            <Link to={`/${breed}`}>See breed</Link>
           )}
         </>
       ) : (

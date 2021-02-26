@@ -1,15 +1,16 @@
 import React, { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { DogIcon } from "../Icons/Dog";
 
 export const Navbar: FunctionComponent = () => (
   <NavbarContainer>
-    <a href="/">
+    <Link to="/">
       <DogIcon />
-    </a>
+    </Link>
 
     <Menu>
-      <a href="/my-team">My team</a>
+      <Link to="/my-team">My team</Link>
     </Menu>
   </NavbarContainer>
 );

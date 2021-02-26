@@ -14,8 +14,8 @@ const routes = [
 
 const App: FunctionComponent = () => (
   <Suspense fallback={<></>}>
-    <Navbar />
     <Router>
+      <Navbar />
       <Switch>
         {routes.map(({ path, element }, index) => (
           <Route key={index} exact path={path}>
