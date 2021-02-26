@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const Home = lazy(() => import("./containers/Home/Home"));
 const BreedPage = lazy(() => import("./containers/BreedPage/BreedPage"));
+const MyTeam = lazy(() => import("./containers/MyTeam/MyTeam"));
 
 const routes = [
   { path: "/", element: <Home /> },
+  { path: "/my-team", element: <MyTeam /> },
   { path: "/:breed", element: <BreedPage /> },
 ];
 
