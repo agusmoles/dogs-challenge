@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import { Input } from "../../components";
-import { BreedCard } from "../../components/Card/BreedCard";
+import { BreedCard } from "../../components";
 import { useDebounce, useFetch } from "../../hooks";
 
 interface AllBreedsResponse {

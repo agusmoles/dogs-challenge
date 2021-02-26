@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
-import { BreedCard } from "../../components/Card/BreedCard";
+import { BreedCard } from "../../components";
 import { useLocalStorage } from "../../hooks";
 
 const BreedPage: FunctionComponent = () => {

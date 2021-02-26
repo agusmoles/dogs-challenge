@@ -1,5 +1,6 @@
 import React, { FunctionComponent, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Navbar } from "./components";
 
 const Home = lazy(() => import("./containers/Home/Home"));
 const BreedPage = lazy(() => import("./containers/BreedPage/BreedPage"));
@@ -13,6 +14,7 @@ const routes = [
 
 const App: FunctionComponent = () => (
   <Suspense fallback={<></>}>
+    <Navbar />
     <Router>
       <Switch>
         {routes.map(({ path, element }, index) => (

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { BreedCard } from "../../components/Card/BreedCard";
+import { BreedCard } from "../../components";
 import { useFetch } from "../../hooks";
 
 interface RouteParams {
