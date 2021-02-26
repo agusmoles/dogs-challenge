@@ -14,6 +14,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
+### Assumptions / Considerations
+
+- Logic of the breeds team should be abstracted to its own hook probably since now all the logic is living inside the `BreedCard` (only needed there)
+- Assumed that in the Home page all breeds should be displayed
+- The search breed input starts searching after not typing for 350ms
+- Used `Local Storage` for implementing breeds team
+
 ### What should you build?
 
 Design a small React app that shows a list of breeds using the api "Dog API" (https://dog.ceo/dog-api/). Add the ability to search the list by breed name. When a breed on the list is clicked, the app should navigate to the breed page.
