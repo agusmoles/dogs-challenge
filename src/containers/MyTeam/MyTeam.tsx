@@ -1,22 +1,23 @@
 import React, { FunctionComponent } from "react";
 import styled from "styled-components";
 import { BreedCard } from "../../components";
-import { useLocalStorage } from "../../hooks";
+import { useDogsTeam } from "../../hooks";
 
 const BreedPage: FunctionComponent = () => {
-  const [breedsTeam] = useLocalStorage<string[]>("breeds-team", []);
+  const { dogsTeam } = useDogsTeam();
 
   return (
     <Container>
       <h1>My team</h1>
 
-      {breedsTeam && (
+      {dogsTeam.length !== 0 ? (
         <BreedsList>
-          {breedsTeam.map((completeBreedName) => {
-            const [breed, subBreed] = completeBreedName.split("-");
-            return <BreedCard breed={breed} subBreed={subBreed} addToTeam />;
-          })}
+          {dogsTeam.map(({ breed, image }) => (
+            <BreedCard breed={breed} image={image} addToTeam />
+          ))}
         </BreedsList>
+      ) : (
+        <h2>You don't have a team yet!😞</h2>
       )}
     </Container>
   );

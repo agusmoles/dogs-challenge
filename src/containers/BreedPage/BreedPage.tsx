@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { BreedCard } from "../../components";
@@ -14,33 +14,25 @@ interface SubBreedsResponse {
 
 const BreedPage: FunctionComponent = () => {
   const { breed } = useParams<RouteParams>();
-  const { fetchedData: subBreedsData } = useFetch<SubBreedsResponse>(
-    `https://dog.ceo/api/breed/${breed}/list`
+  const { fetchedData: breedImagesData } = useFetch<SubBreedsResponse>(
+    `https://dog.ceo/api/breed/${breed}/images`
   );
-  const [subBreedsNames, setSubBreedsNames] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (!subBreedsData) return;
-
-    setSubBreedsNames(subBreedsData.message);
-  }, [subBreedsData]);
 
   return (
     <Container>
       <h1>{breed}</h1>
 
-      {subBreedsNames && (
-        <SubBreedsList>
-          <BreedCard breed={breed} addToTeam />
-          {subBreedsNames.map((subBreedName) => (
+      {breedImagesData && (
+        <BreedsImages>
+          {breedImagesData.message.map((dogImage) => (
             <BreedCard
-              key={subBreedName}
+              key={dogImage}
+              image={dogImage}
               breed={breed}
-              subBreed={subBreedName}
               addToTeam
             />
           ))}
-        </SubBreedsList>
+        </BreedsImages>
       )}
     </Container>
   );
@@ -50,7 +42,7 @@ const Container = styled.div`
   padding: 40px 20px;
 `;
 
-const SubBreedsList = styled.div`
+const BreedsImages = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;

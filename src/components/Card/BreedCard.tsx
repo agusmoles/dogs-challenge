@@ -1,12 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useFetch, useLocalStorage } from "../../hooks";
+import { SavedDog, useDogsTeam, useFetch } from "../../hooks";
 
 interface BreedCardProps {
   breed: string;
-  subBreed?: string;
   addToTeam?: boolean;
+  image?: string;
 }
 
 interface BreedImageResponse {
@@ -15,55 +15,51 @@ interface BreedImageResponse {
 
 export const BreedCard: FunctionComponent<BreedCardProps> = ({
   breed,
-  subBreed,
   addToTeam,
+  image,
 }) => {
   const { status, fetchedData: breedImage } = useFetch<BreedImageResponse>(
-    `https://dog.ceo/api/breed/${breed}/images/random`
+    `https://dog.ceo/api/breed/${breed}/images/random`,
+    !image
   );
-  const [breedsTeam, setBreedsTeam] = useLocalStorage<string[]>(
-    "breeds-team",
-    []
-  );
+  const { dogsTeam, setDogsTeam } = useDogsTeam();
+
   const [isAlreadyInTeam, setIsAlreadyInTeam] = useState(false);
 
   const switchTeam = () => {
-    const sameBreedDogsInTheTeam = breedsTeam.filter((breedName) =>
-      breedName.startsWith(breed)
+    const sameBreedDogsInTheTeam = dogsTeam.filter(
+      (dogTeammate) => dogTeammate.breed === breed
     ).length;
 
     if (
       !isAlreadyInTeam &&
-      (breedsTeam.length >= 10 || sameBreedDogsInTheTeam >= 3)
+      (dogsTeam.length >= 10 || sameBreedDogsInTheTeam >= 3)
     )
       return;
 
-    const completeBreedName = subBreed ? `${breed}-${subBreed}` : breed;
+    if (!image) return;
 
-    const newBreedsTeam = isAlreadyInTeam
-      ? breedsTeam.filter((breedName) => breedName !== completeBreedName)
-      : [...breedsTeam, completeBreedName];
+    const newDogsTeam: SavedDog[] = isAlreadyInTeam
+      ? dogsTeam.filter((dogTeammate) => dogTeammate.image !== image)
+      : [...dogsTeam, { breed, image }];
 
-    setBreedsTeam(newBreedsTeam);
+    setDogsTeam(newDogsTeam);
   };
 
   useEffect(() => {
-    if (!breedsTeam) return;
-    const completeBreedName = subBreed ? `${breed}-${subBreed}` : breed;
+    if (!dogsTeam) return;
 
     setIsAlreadyInTeam(
-      breedsTeam.some((breedName) => completeBreedName === breedName)
+      dogsTeam.some((dogTeammate) => dogTeammate.image === image)
     );
-  }, [breedsTeam, breed, subBreed]);
+  }, [dogsTeam, breed, image]);
 
   return (
     <Card>
-      {status === "resolved" && breedImage ? (
+      {(status === "resolved" && breedImage) || image ? (
         <>
-          <BreedName>
-            {breed} {subBreed && `- ${subBreed}`}
-          </BreedName>
-          <img src={breedImage.message} alt={`${breed} breed`} />
+          <BreedName>{breed}</BreedName>
+          <img src={image || breedImage?.message} alt={`${breed} breed`} />
 
           {addToTeam ? (
             <button onClick={switchTeam}>
