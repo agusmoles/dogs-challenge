@@ -31,13 +31,6 @@ const Home: FunctionComponent = () => {
     if (!allBreedsData) return;
 
     const allBreeds = Object.keys(allBreedsData.message);
-    setDisplayedBreeds(allBreeds);
-  }, [allBreedsData]);
-
-  useEffect(() => {
-    if (!allBreedsData) return;
-
-    const allBreeds = Object.keys(allBreedsData.message);
 
     setDisplayedBreeds(
       allBreeds.filter((breedName) =>
