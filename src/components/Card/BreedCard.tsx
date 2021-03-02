@@ -63,7 +63,7 @@ export const BreedCard: FunctionComponent<BreedCardProps> = ({
 
           {addToTeam ? (
             <button onClick={switchTeam}>
-              {isAlreadyInTeam ? "Remove from team" : "Add to team"}
+              {isAlreadyInTeam ? "Remove from my team" : "Add to my team"}
             </button>
           ) : (
             <Link to={`/${breed}`}>See breed</Link>
