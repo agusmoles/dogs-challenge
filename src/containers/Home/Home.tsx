@@ -39,13 +39,11 @@ const Home: FunctionComponent = () => {
 
     const allBreeds = Object.keys(allBreedsData.message);
 
-    debouncedSearchedBreed === ""
-      ? setDisplayedBreeds(allBreeds)
-      : setDisplayedBreeds(
-          allBreeds.filter((breedName) =>
-            breedName.startsWith(debouncedSearchedBreed)
-          )
-        );
+    setDisplayedBreeds(
+      allBreeds.filter((breedName) =>
+        breedName.startsWith(debouncedSearchedBreed)
+      )
+    );
   }, [debouncedSearchedBreed, allBreedsData]);
 
   return (
