@@ -20,6 +20,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 - Assumed that in the Home page all breeds should be displayed
 - The search breed input starts searching after not typing for 350ms
 - Used `Local Storage` for implementing breeds team
+- Decided to use the `image` link as an `id` for the Dogs added to "My Team"
 
 ### What should you build?
 
